@@ -1,23 +1,21 @@
-#Imports
 import pygame, sys
 from pygame.locals import *
 import random, time
 
-#Initialzing 
 pygame.init()
 
-#Setting up FPS 
+#Уствновка фпс
 FPS = 60
 FramePerSec = pygame.time.Clock()
 
-#Creating colors
+#Цвета
 BLUE  = (0, 0, 255)
 RED   = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 
-#Other Variables for use in the program
+#Нужные переменные
 SCREEN_WIDTH = 400
 SCREEN_HEIGHT = 600
 SPEED = 5
@@ -25,20 +23,22 @@ SPEED_OF_COIN = 5
 COINS = 0
 SCORE = 0
 
-#Setting up Fonts
+#Шрифты
 font = pygame.font.SysFont("Verdana", 60)
 font_small = pygame.font.SysFont("Verdana", 20)
 game_over = font.render("Game Over", True, BLACK)
 
+#Фон и фоновая музыка
 background = pygame.image.load("Lab_8/Resources/AnimatedStreet.png")
 background_song = pygame.mixer.music.load("Lab_8/Resources/background.wav")
 pygame.mixer.music.play(-1)
 
-#Create a white screen 
+#Создание белого экрана
 DISPLAYSURF = pygame.display.set_mode((400,600))
 DISPLAYSURF.fill(WHITE)
 pygame.display.set_caption("Game")
 
+#Создание всех классов
 class Coin(pygame.sprite.Sprite):
       def __init__(self):
         super().__init__() 
@@ -86,12 +86,12 @@ class Player(pygame.sprite.Sprite):
                   self.rect.move_ip(5, 0)
                   
 
-#Setting up Sprites        
+#Создание спрайтов       
 P1 = Player()
 E1 = Enemy()
 C1 = Coin()
 
-#Creating Sprites Groups
+#Добавление спрайтов в группы
 enemies = pygame.sprite.Group()
 enemies.add(E1)
 coins = pygame.sprite.Group()
@@ -101,14 +101,13 @@ all_sprites.add(P1)
 all_sprites.add(E1)
 all_sprites.add(C1)
 
-#Adding a new User event 
+#Создание нового события
 INC_SPEED = pygame.USEREVENT + 1
 pygame.time.set_timer(INC_SPEED, 1000)
 
-#Game Loop
 while True:
       
-    #Cycles through all events occuring  
+    #Цикл всех событий
     for event in pygame.event.get():
         if event.type == INC_SPEED:
               SPEED += 0.5      
@@ -116,20 +115,20 @@ while True:
             pygame.quit()
             sys.exit()
 
-
+    #Отрисовка счета
     DISPLAYSURF.blit(background, (0,0))
     scores = font_small.render(str(SCORE), True, BLACK)
     DISPLAYSURF.blit(scores, (10,10))
     score_of_coins = font_small.render(str(COINS), True, BLACK)
     DISPLAYSURF.blit(score_of_coins, (360,10))
 
-    #Moves and Re-draws all Sprites
+    #Движение всех спрайтов 
     for entity in all_sprites:
         entity.move()
         DISPLAYSURF.blit(entity.image, entity.rect)
         
 
-    #To be run if collision occurs between Player and Enemy
+    #Коллизии между игроком и врагом
     if pygame.sprite.spritecollideany(P1, enemies):
           pygame.mixer.Sound('Lab_8/Resources/crash.wav').play()
           time.sleep(1)
@@ -144,6 +143,7 @@ while True:
           pygame.quit()
           sys.exit()        
 
+    #Коллизии между игроком и врагом
     if pygame.sprite.spritecollideany(P1, coins):
         COINS += 1
         for coin in coins:
