@@ -2,10 +2,8 @@ import psycopg2
 import csv
 from config import load_config
 
-def insert_number(name, number):
-    """ Insert a new number into the PhoneBook table """
-    sql = """INSERT INTO PhoneBook(name, phonenumber)
-             VALUES(%s, %s);"""
+def insert_number(table, name, number):
+    sql = "INSERT INTO " + table + " VALUES(%s, %s);"
     config = load_config(filename='B:/Lab_1/Lab_10/database.ini')
     try:
         with  psycopg2.connect(**config) as conn:

@@ -3,6 +3,7 @@ from update import *
 from delete import *
 from get import *
 
+table = "PhoneBook"
 
 while True:
     a = input("""Выберите что вы хотите сделать:
@@ -17,17 +18,17 @@ while True:
         b = input("Введите имя и номер:\n")
         c = b.split(" ")
         name, number = c[0], c[1]
-        insert_number(name, number)
+        insert_number(table, name, number)
         print("Запись сохранена\n")
     elif a == "2":
         b = input("Введите имя и номер:\n")
         c = b.split(" ")
         name, number = c[0], c[1]
-        update_number(name, number)
+        update_number(table, name, number)
         print(f"Номер у {name} изменен\n")
     elif a == "3":
         name = input("Введите имя:\n")
-        delete_number(name)
+        delete_number(table, name)
         print("Номер удален\n")
     elif a == "4":
         b = input("""1. По имени 
@@ -35,12 +36,12 @@ while True:
 3. Все номера \n""")
         if b == "1":
             c = input("Введите имя: ")
-            get_numbers(name=c)
+            get_numbers(table, name=c)
         elif b == "2":
             c = input("Введите номер: ")
-            get_numbers(number=c)
+            get_numbers(table, number=c)
         elif b == "3":
-            get_numbers()
+            get_numbers(table)
         else:
             print("Данной опции не существует\n")
     elif a == "5":
@@ -50,4 +51,3 @@ while True:
         break
     else:
         print("Данной опции не существует\n")
-        
